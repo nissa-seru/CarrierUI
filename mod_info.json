@@ -1,0 +1,9 @@
+{
+	"id":"carrierui",
+	"name":"CarrierUI",
+	"author":"Princess of Evil",
+	"version":"1.0.0",
+	"description":"Tells you actual stats of your carrier wings.",
+	"gameVersion":"0.95.1a-RC5",
+	"jars": ["jar/carrierui.jar"]
+}
