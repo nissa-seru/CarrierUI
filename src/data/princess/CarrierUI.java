@@ -91,13 +91,35 @@ public class CarrierUI extends BaseEveryFrameCombatPlugin
 				Class field = Class.forName("java.lang.reflect.Field", true, Class.class.getClassLoader());
 				
 				MethodType type = MethodType.methodType(field, new Class[] { String.class });
-				MethodHandle fieldGetter = MethodHandles.lookup().findVirtual(Class.class, "getDeclaredField", type);
 				
-				logger.log(Level.INFO, fieldGetter);
+			//	logger.log(Level.INFO, fieldGetter);
 				
-				ac = Class.forName("com.fs.starfarer.combat.entities.ship.A.C");
 				
-				heresy = fieldGetter.invoke(ac, "void.String");
+				
+			//	if (ac == null)
+					{
+				//	logger.log(Level.INFO, "AC NOT FOUND");
+					ac = Class.forName("com.fs.starfarer.combat.entities.ship.A.ooOO");
+					}
+				/*
+				MethodHandle fieldsGetter = MethodHandles.lookup().findVirtual(Class.class, "getDeclaredFields", type);
+				Object[] fields = ac.getDeclaredFields();
+				
+				MethodType typeType = MethodType.methodType(field, new Class[] { String.class });
+				MethodHandle fieldTypeGetter = MethodHandles.lookup().findVirtual(field, "getType", typeType);
+				
+				for (int i = 0; i < fields.length; i++)
+					{
+					if (fields[i].getType().equals(IntervalTracker.class))
+						heresy = fields[i];
+					}
+				if (heresy == null)*/
+					{
+				//	logger.log(Level.INFO, "HERESY NOT FOUND");
+					MethodHandle fieldGetter = MethodHandles.lookup().findVirtual(Class.class, "getDeclaredField", type);
+					heresy = fieldGetter.invoke(ac, "if.String");
+					}
+				
 				logger.log(Level.INFO, MethodHandles.lookup().findVirtual(field, "setAccessible", MethodType.methodType(void.class, new Class[] { boolean.class })));
 				MethodHandles.lookup().findVirtual(field, "setAccessible", MethodType.methodType(void.class, new Class[] { boolean.class })).invoke(heresy, true);
 				

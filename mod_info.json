@@ -4,6 +4,6 @@
 	"author":"Princess of Evil",
 	"version":"1.0.0",
 	"description":"Tells you actual stats of your carrier wings.",
-	"gameVersion":"0.95.1a-RC5",
+	"gameVersion":"0.96a",
 	"jars": ["jar/carrierui.jar"]
 }
