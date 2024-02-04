@@ -98,57 +98,52 @@ public class CarrierUI extends BaseEveryFrameCombatPlugin
 			{
 			FighterLaunchBayAPI bay = (FighterLaunchBayAPI)bays.get(i);
 			
-			try
-				{
-				int perc = (int)((1f - bay.getTimeUntilNextReplacement() / bay.getCurrReplacementIntervalDuration()) * 100);
 			
-				Color borderCol = GREEN;
-				if (!ship.isAlive())
-					borderCol = BLUE;
-					
-				float alpha = 1;
-				if (Global.getCombatEngine().isUIShowingDialog())
-					alpha = 0.28f;
+			float perc = bay.getTimeUntilNextReplacement();
+			if (perc + 1f < 0.00005f) continue; // perc is only negative if it's -1; no abs necessary.
+			perc = ((1f - perc / bay.getCurrReplacementIntervalDuration()) * 100);
+		
+			Color borderCol = GREEN;
+			if (!ship.isAlive())
+				borderCol = BLUE;
 				
-				// For the record this isn't quite how alpha works.
-				Color shadowcolor = new Color(0f, 0f, 0f, 1f - Global.getCombatEngine().getCombatUI().getCommandUIOpacity());
-				Color color = new Color(borderCol.getRed() / 255f, borderCol.getGreen() / 255f, borderCol.getBlue() / 255f, alpha * (borderCol.getAlpha() / 255f) * (1f - Global.getCombatEngine().getCombatUI().getCommandUIOpacity()));
-				
-				Vector2f loc = new Vector2f(232f + 53f * i, 31f);
-				
-				if(Global.getSettings().getScreenScaleMult() != 1)
-					{
-					loc.scale(Global.getSettings().getScreenScaleMult());
-					font.setFontSize(14 * Global.getSettings().getScreenScaleMult());
-					}
-				
-				GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-				GL11.glMatrixMode(GL11.GL_PROJECTION);
-				GL11.glPushMatrix();
-				GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
-				GL11.glOrtho(0.0, Display.getWidth(), 0.0, Display.getHeight(), -1.0, 1.0);
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				
-				font.setText(String.format("%s%%", perc)); // Easiest way to toString in java, don't judge.
-				font.setMaxWidth(46 * Global.getSettings().getScreenScaleMult());
-				font.setMaxHeight(14 * Global.getSettings().getScreenScaleMult());
-				font.setColor(shadowcolor);
-				font.draw(loc);
-				font.setColor(color);
-				font.draw(loc.translate(-1f, 1f));
-				
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				GL11.glDisable(GL11.GL_BLEND);
-				GL11.glPopMatrix();
-				GL11.glPopAttrib();
+			float alpha = 1;
+			if (Global.getCombatEngine().isUIShowingDialog())
+				alpha = 0.28f;
 			
-				}
-			catch (Throwable ex)
+			// For the record this isn't quite how alpha works.
+			Color shadowcolor = new Color(0f, 0f, 0f, 1f - Global.getCombatEngine().getCombatUI().getCommandUIOpacity());
+			Color color = new Color(borderCol.getRed() / 255f, borderCol.getGreen() / 255f, borderCol.getBlue() / 255f, alpha * (borderCol.getAlpha() / 255f) * (1f - Global.getCombatEngine().getCombatUI().getCommandUIOpacity()));
+			
+			Vector2f loc = new Vector2f(232f + 53f * i, 31f);
+			
+			if(Global.getSettings().getScreenScaleMult() != 1)
 				{
-			//	logger.log(Level.INFO, "aleeex", ex);
+				loc.scale(Global.getSettings().getScreenScaleMult());
+				font.setFontSize(14 * Global.getSettings().getScreenScaleMult());
 				}
+			
+			GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+			GL11.glMatrixMode(GL11.GL_PROJECTION);
+			GL11.glPushMatrix();
+			GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
+			GL11.glOrtho(0.0, Display.getWidth(), 0.0, Display.getHeight(), -1.0, 1.0);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			
+			font.setText(String.format("%s%%", (int) perc)); // Easiest way to toString in java, don't judge. Also, cast from float to int does floor.
+			font.setMaxWidth(46 * Global.getSettings().getScreenScaleMult());
+			font.setMaxHeight(14 * Global.getSettings().getScreenScaleMult());
+			font.setColor(shadowcolor);
+			font.draw(loc);
+			font.setColor(color);
+			font.draw(loc.translate(-1f, 1f));
+			
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glPopMatrix();
+			GL11.glPopAttrib();
 			}
 		}
 	}
